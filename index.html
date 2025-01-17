@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Social App</title>
+    <title>Online Chat</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,120 +24,70 @@
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 8px;
+        .chat-box {
             border: 1px solid #ccc;
             border-radius: 5px;
+            padding: 10px;
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            background: #e9ecef;
+        }
+        .message {
+            margin-bottom: 5px;
+            padding: 5px;
+            background: #d1e7dd;
+            border-radius: 5px;
+        }
+        .form-group {
+            display: flex;
+        }
+        .form-group input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
         }
         .form-group button {
-            width: 100%;
             padding: 10px;
             background-color: #007bff;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 0 5px 5px 0;
             cursor: pointer;
         }
         .form-group button:hover {
             background-color: #0056b3;
         }
-        .posts {
-            margin-top: 20px;
-        }
-        .post {
-            background: #e9ecef;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Register</h2>
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" placeholder="Enter username">
+        <h2>Online Chat</h2>
+        <div class="chat-box" id="chat-box">
+            <!-- Messages will appear here -->
         </div>
         <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" placeholder="Enter password">
-        </div>
-        <div class="form-group">
-            <button onclick="register()">Register</button>
-        </div>
-
-        <h2>Login</h2>
-        <div class="form-group">
-            <label for="login-username">Username:</label>
-            <input type="text" id="login-username" placeholder="Enter username">
-        </div>
-        <div class="form-group">
-            <label for="login-password">Password:</label>
-            <input type="password" id="login-password" placeholder="Enter password">
-        </div>
-        <div class="form-group">
-            <button onclick="login()">Login</button>
-        </div>
-
-        <h2>Create Post</h2>
-        <div class="form-group">
-            <label for="post-content">Content:</label>
-            <textarea id="post-content" placeholder="Write something..." rows="3" style="width: 100%; padding: 8px;"></textarea>
-        </div>
-        <div class="form-group">
-            <button onclick="createPost()">Post</button>
-        </div>
-
-        <div class="posts" id="posts">
-            <h3>Posts</h3>
-            <!-- Posts will appear here -->
+            <input type="text" id="message" placeholder="Type your message...">
+            <button onclick="sendMessage()">Send</button>
         </div>
     </div>
 
     <script>
-        const posts = [];
+        const chatBox = document.getElementById('chat-box');
 
-        function register() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            if (username && password) {
-                alert('User registered successfully!');
+        function sendMessage() {
+            const messageInput = document.getElementById('message');
+            const message = messageInput.value.trim();
+            if (message) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message';
+                messageDiv.textContent = message;
+                chatBox.appendChild(messageDiv);
+                chatBox.scrollTop = chatBox.scrollHeight;
+                messageInput.value = '';
             } else {
-                alert('Please fill in all fields.');
-            }
-        }
-
-        function login() {
-            const username = document.getElementById('login-username').value;
-            const password = document.getElementById('login-password').value;
-            if (username && password) {
-                alert('Logged in successfully!');
-            } else {
-                alert('Please fill in all fields.');
-            }
-        }
-
-        function createPost() {
-            const content = document.getElementById('post-content').value;
-            if (content) {
-                posts.push(content);
-                const postList = document.getElementById('posts');
-                const postDiv = document.createElement('div');
-                postDiv.className = 'post';
-                postDiv.textContent = content;
-                postList.appendChild(postDiv);
-                document.getElementById('post-content').value = '';
-            } else {
-                alert('Post content cannot be empty!');
+                alert('Message cannot be empty!');
             }
         }
     </script>
