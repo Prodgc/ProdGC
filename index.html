@@ -145,13 +145,13 @@
         <div class="game">
             <strong>Infinite Yield</strong>
             <p>Features: Admin commands and more</p>
-            <button onclick="copyScript('loadstring(game:HttpGet(\"https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source\"))()')">Copy Script</button>
+            <button onclick="copyInfiniteYieldScript()">Copy Script</button>
         </div>
 
         <div class="game">
             <strong>Owl Hub</strong>
             <p>Features: A collection of useful scripts</p>
-            <button onclick="copyScript('loadstring(game:HttpGet(\"https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt\"))();')">Copy Script</button>
+            <button onclick="copyOwlHubScript()">Copy Script</button>
         </div>
     </div>
 
@@ -177,20 +177,33 @@ function toggleScriptSection() {
     }
 }
 
-function copyScript(script) {
-    navigator.clipboard.writeText(script).then(() => {
-        alert('Script copied to clipboard!');
-    }).catch(err => {
-        alert('Failed to copy script: ' + err);
-    });
-}
-
+// Nyxora Script Copy
 function copyNyxoraScript() {
     const script = `loadstring(game:HttpGet("https://raw.githubusercontent.com/Prodgc/Nyxora-Bypass---Free-/refs/heads/main/Direction%20Link", true))()`;
     navigator.clipboard.writeText(script).then(() => {
         alert('Nyxora Bypasser Script copied to clipboard!');
     }).catch(err => {
         alert('Failed to copy Nyxora script: ' + err);
+    });
+}
+
+// Infinite Yield Script Copy
+function copyInfiniteYieldScript() {
+    const script = `loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()`;
+    navigator.clipboard.writeText(script).then(() => {
+        alert('Infinite Yield Script copied to clipboard!');
+    }).catch(err => {
+        alert('Failed to copy Infinite Yield script: ' + err);
+    });
+}
+
+// Owl Hub Script Copy
+function copyOwlHubScript() {
+    const script = `loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();`;
+    navigator.clipboard.writeText(script).then(() => {
+        alert('Owl Hub Script copied to clipboard!');
+    }).catch(err => {
+        alert('Failed to copy Owl Hub script: ' + err);
     });
 }
 </script>
