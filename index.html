@@ -1,212 +1,100 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nyxora Bypasser</title>
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #1e1e1e;
-            color: #d4d4d4;
+            background-color: #000;
+            color: #fff;
             animation: fadeIn 1s ease-in;
         }
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         .top-bar {
-            background-color: #2d2d2d;
-            color: #d4d4d4;
-            padding: 10px;
+            background: linear-gradient(90deg, #111, #222);
+            padding: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #3c3c3c;
-            animation: slideDown 1s ease-in;
-        }
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-            }
-            to {
-                transform: translateY(0);
-            }
+            border-bottom: 2px solid #333;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
         .top-bar a {
-            color: #d4d4d4;
+            color: #fff;
             text-decoration: none;
-            margin: 0 10px;
-            cursor: pointer;
+            margin: 0 15px;
+            transition: color 0.3s;
         }
         .top-bar a:hover {
-            text-decoration: underline;
+            color: #ff4d00;
         }
         .container {
-            padding: 20px;
+            text-align: center;
+            padding: 50px 20px;
+            animation: slideUp 1s ease-in-out;
         }
-        .container h1, .container p {
-            color: #d4d4d4;
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
         button {
-            background-color: #3c3c3c;
-            color: #d4d4d4;
-            border: 1px solid #555;
-            padding: 10px 20px;
-            border-radius: 5px;
+            background: #ff4d00;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin: 15px;
+            border-radius: 8px;
             cursor: pointer;
-            margin-right: 10px;
-            transition: transform 0.2s, background-color 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         button:hover {
-            background-color: #555;
             transform: scale(1.1);
+            box-shadow: 0 0 15px #ff4d00;
         }
         .developers {
             position: fixed;
             bottom: 10px;
             right: 10px;
-            background-color: #2d2d2d;
-            color: #d4d4d4;
-            padding: 5px 10px;
-            border-radius: 5px;
-            border: 1px solid #3c3c3c;
+            background: #111;
+            padding: 10px;
+            border-radius: 8px;
             font-size: 14px;
-            animation: fadeIn 2s ease-in;
-        }
-        /* New section styles */
-        .other-games {
-            display: none; /* Hidden by default */
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #2d2d2d;
-            color: #d4d4d4;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            text-align: center;
-        }
-        .other-games h3 {
-            margin-bottom: 10px;
-        }
-        .game-list {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-        }
-        .game {
-            background-color: #3c3c3c;
-            padding: 10px 20px;
-            border-radius: 5px;
-            width: 30%;
-            margin: 0 10px;
-        }
-        .game button {
-            width: 100%;
-            margin-top: 5px;
+            box-shadow: 0 0 10px rgba(255, 77, 0, 0.5);
         }
     </style>
 </head>
 <body>
-
-<div class="top-bar">
-    <div class="links">
-        <a href="#">Home</a>
-        <a href="#" id="show-script-section">Show Scripts</a>
-        <a href="https://discord.gg/n3HdYwfjn3" target="_blank">Discord</a>
-    </div>
-</div>
-
-<div class="container" id="main-content">
-    <h1>Nyxora Bypasser</h1>
-    <p>
-        <span style="display: inline; margin-right: 10px;">The Best Roblox Chat Bypasser Script!</span>
-        <span style="font-size: 10px; color: #888; display: inline;">After UC</span>
-    </p>
-
-    <button onclick="window.location.href='https://discord.gg/n3HdYwfjn3';">Join Discord</button>
-    <button onclick="copyNyxoraScript()">Copy Nyxora Script</button>
-</div>
-
-<div class="developers">
-    Developers: sdx23w, _nuqler3, and k4739158 On Discord
-</div>
-
-<!-- New Section: Other Games -->
-<div class="other-games" id="other-games-section">
-    <h3>Other Games</h3>
-
-    <div class="game-list">
-        <div class="game">
-            <strong>Infinite Yield</strong>
-            <p>Features: Admin commands and more</p>
-            <button onclick="copyInfiniteYieldScript()">Copy Script</button>
-        </div>
-
-        <div class="game">
-            <strong>Owl Hub</strong>
-            <p>Features: A collection of useful scripts</p>
-            <button onclick="copyOwlHubScript()">Copy Script</button>
+    <div class="top-bar">
+        <div class="links">
+            <a href="#">Home</a>
+            <a href="#" id="show-script-section">Scripts</a>
+            <a href="https://discord.gg/n3HdYwfjn3" target="_blank">Discord</a>
         </div>
     </div>
-
-    <button onclick="toggleScriptSection()">Close Scripts</button>
-</div>
-
-<script>
-document.getElementById("show-script-section").addEventListener("click", function() {
-    toggleScriptSection();
-});
-
-function toggleScriptSection() {
-    const mainContent = document.getElementById("main-content");
-    const otherGamesSection = document.getElementById("other-games-section");
-
-    // Toggle visibility of the script section and main content
-    if (otherGamesSection.style.display === "none" || otherGamesSection.style.display === "") {
-        mainContent.style.display = "none";  // Hide the main content
-        otherGamesSection.style.display = "block";  // Show the script section
-    } else {
-        mainContent.style.display = "block";  // Show the main content
-        otherGamesSection.style.display = "none";  // Hide the script section
-    }
-}
-
-// Nyxora Script Copy
-function copyNyxoraScript() {
-    const script = `loadstring(game:HttpGet("https://raw.githubusercontent.com/Prodgc/Nyxora-Bypass---Free-/refs/heads/main/Direction%20Link", true))()`;
-    navigator.clipboard.writeText(script).then(() => {
-        alert('Nyxora Bypasser Script copied to clipboard!');
-    }).catch(err => {
-        alert('Failed to copy Nyxora script: ' + err);
-    });
-}
-
-// Infinite Yield Script Copy
-function copyInfiniteYieldScript() {
-    const script = `loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()`;
-    navigator.clipboard.writeText(script).then(() => {
-        alert('Infinite Yield Script copied to clipboard!');
-    }).catch(err => {
-        alert('Failed to copy Infinite Yield script: ' + err);
-    });
-}
-
-// Owl Hub Script Copy
-function copyOwlHubScript() {
-    const script = `loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();`;
-    navigator.clipboard.writeText(script).then(() => {
-        alert('Owl Hub Script copied to clipboard!');
-    }).catch(err => {
-        alert('Failed to copy Owl Hub script: ' + err);
-    });
-}
-</script>
-
+    <div class="container" id="main-content">
+        <h1>Nyxora Bypasser</h1>
+        <p>The Best Roblox Chat Bypasser Script</p>
+        <button onclick="window.location.href='https://discord.gg/n3HdYwfjn3';">Join Discord</button>
+        <button onclick="copyNyxoraScript()">Copy Script</button>
+    </div>
+    <div class="developers">
+        Developers: sdx23w, _nuqler3, k4739158 On Discord
+    </div>
+    <script>
+        function copyNyxoraScript() {
+            const script = `loadstring(game:HttpGet("https://raw.githubusercontent.com/Prodgc/Nyxora-Bypass---Free-/refs/heads/main/Direction%20Link", true))()`;
+            navigator.clipboard.writeText(script).then(() => {
+                alert('Script copied to clipboard!');
+            }).catch(err => {
+                alert('Failed to copy Nyxora script: ' + err);
+            });
+        }
+    </script>
 </body>
 </html>
