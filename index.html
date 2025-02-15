@@ -1,100 +1,330 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌍 Axen Bypasser</title>
+    <title>Super Ultra Realistic Physics Simulator</title>
     <style>
         body {
             margin: 0;
+            overflow: hidden;
+            background-color: #121212;
+            color: #e0e0e0;
             font-family: Arial, sans-serif;
-            background-color: #000;
-            color: #fff;
-            animation: fadeIn 1s ease-in;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+
+        canvas {
+            display: block;
+            background: #1c1c1c;
+            border: 2px solid #333;
         }
-        .top-bar {
-            background: linear-gradient(90deg, #111, #222);
+
+        .controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(30, 30, 30, 0.9);
             padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #333;
+            border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            color: #f0f0f0;
+            font-size: 14px;
         }
-        .top-bar a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 15px;
-            transition: color 0.3s;
+
+        .controls label {
+            display: block;
+            margin-bottom: 10px;
         }
-        .top-bar a:hover {
-            color: #ff4d00;
+
+        .controls input[type="number"],
+        .controls input[type="color"] {
+            background-color: #333;
+            border: 1px solid #444;
+            color: #f0f0f0;
+            padding: 5px;
+            border-radius: 4px;
+            width: 100%;
         }
-        .container {
-            text-align: center;
-            padding: 50px 20px;
-            animation: slideUp 1s ease-in-out;
-        }
-        @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        button {
-            background: #ff4d00;
+
+        .controls button {
+            background-color: #6200ea;
             color: white;
             border: none;
-            padding: 12px 25px;
-            margin: 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px #ff4d00;
-        }
-        .developers {
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            background: #111;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 8px 16px;
             font-size: 14px;
-            box-shadow: 0 0 10px rgba(255, 77, 0, 0.5);
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .controls button:hover {
+            background-color: #3700b3;
+        }
+
+        .controls button:focus {
+            outline: none;
+        }
+
+        /* Title */
+        .title {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Responsiveness */
+        @media (max-width: 600px) {
+            .controls {
+                top: 10px;
+                right: 10px;
+                width: 90%;
+            }
+
+            .title {
+                font-size: 18px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="top-bar">
-        <div class="links">
-            <a href="#">Home</a>
-            <a href="#" id="show-script-section">Scripts</a>
-            <a href="https://discord.gg/n3HdYwfjn3" target="_blank">Discord</a>
-        </div>
+    <div class="title">Super Ultra Realistic Physics Simulator</div>
+
+    <div class="controls">
+        <label for="boxSize">Size:</label>
+        <input type="number" id="boxSize" value="50" min="10" max="200">
+        
+        <label for="boxColor">Color:</label>
+        <input type="color" id="boxColor" value="#0000ff">
+        
+        <button id="addBox">Add Box</button>
+        <button id="addCircle">Add Circle</button>
+        <button id="clearAll">Clear All</button>
     </div>
-    <div class="container" id="main-content">
-        <h1>Axen Bypasser</h1>
-        <p>The Best Roblox Chat Bypasser Script</p>
-        <button onclick="window.location.href='https://discord.gg/n3HdYwfjn3';">Join Discord</button>
-        <button onclick="copyNyxoraScript()">Copy Script</button>
-    </div>
-    <div class="developers">
-        Developers: sdx23w, _nuqler3, k4739158 On Discord
-    </div>
+
+    <canvas id="canvas"></canvas>
+
     <script>
-        function copyNyxoraScript() {
-            const script = `loadstring(game:HttpGet("https://raw.githubusercontent.com/Prodgc/Nyxora-Bypass---Free-/refs/heads/main/Direction%20Link", true))()`;
-            navigator.clipboard.writeText(script).then(() => {
-                alert('Script copied to clipboard!');
-            }).catch(err => {
-                alert('Failed to copy script: ' + err);
-            });
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Box {
+            constructor(x, y, size, color = "blue") {
+                this.x = x;
+                this.y = y;
+                this.size = size;
+                this.vx = 0;
+                this.vy = 0;
+                this.angle = 0;
+                this.angularVelocity = 0;
+                this.dragging = false;
+                this.color = color;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x + this.size / 2, this.y + this.size / 2);
+                ctx.rotate(this.angle);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+
+            update() {
+                if (!this.dragging) {
+                    this.vy += 0.5;
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    this.angle += this.angularVelocity;
+                    this.vx *= 0.98;
+                    this.vy *= 0.98;
+                    this.angularVelocity *= 0.98;
+
+                    if (this.y + this.size > canvas.height) {
+                        this.y = canvas.height - this.size;
+                        this.vy *= -0.6;
+                        this.angularVelocity *= 0.6;
+                    }
+                    if (this.x + this.size > canvas.width || this.x < 0) {
+                        this.vx *= -0.6;
+                        this.angularVelocity *= 0.6;
+                    }
+                }
+            }
+
+            checkCollision(other) {
+                if (this.x < other.x + other.size &&
+                    this.x + this.size > other.x &&
+                    this.y < other.y + other.size &&
+                    this.y + this.size > other.y) {
+                    let tempVx = this.vx;
+                    let tempVy = this.vy;
+                    this.vx = other.vx;
+                    this.vy = other.vy;
+                    other.vx = tempVx;
+                    other.vy = tempVy;
+                    
+                    this.angularVelocity += Math.random() * 0.2 - 0.1;
+                    other.angularVelocity += Math.random() * 0.2 - 0.1;
+                }
+            }
         }
+
+        class Circle {
+            constructor(x, y, radius, color = "blue") {
+                this.x = x;
+                this.y = y;
+                this.radius = radius;
+                this.vx = 0;
+                this.vy = 0;
+                this.angle = 0;
+                this.angularVelocity = 0;
+                this.dragging = false;
+                this.color = color;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+
+            update() {
+                if (!this.dragging) {
+                    this.vy += 0.5;
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    this.angle += this.angularVelocity;
+                    this.vx *= 0.98;
+                    this.vy *= 0.98;
+                    this.angularVelocity *= 0.98;
+
+                    if (this.y + this.radius > canvas.height) {
+                        this.y = canvas.height - this.radius;
+                        this.vy *= -0.6;
+                    }
+                    if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+                        this.vx *= -0.6;
+                    }
+                }
+            }
+
+            checkCollision(other) {
+                const dx = this.x - other.x;
+                const dy = this.y - other.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < this.radius + other.radius) {
+                    let tempVx = this.vx;
+                    let tempVy = this.vy;
+                    this.vx = other.vx;
+                    this.vy = other.vy;
+                    other.vx = tempVx;
+                    other.vy = tempVy;
+                }
+            }
+        }
+
+        const objects = [
+            new Box(100, 100, 50),
+            new Box(200, 100, 50),
+            new Box(300, 100, 50),
+            new Box(400, 100, 70, "red")
+        ];
+
+        let selectedObject = null;
+        let offsetX, offsetY;
+        let lastMouseX, lastMouseY;
+
+        canvas.addEventListener("mousedown", (e) => {
+            objects.forEach(obj => {
+                if (obj instanceof Box) {
+                    if (e.clientX >= obj.x && e.clientX <= obj.x + obj.size && e.clientY >= obj.y && e.clientY <= obj.y + obj.size) {
+                        selectedObject = obj;
+                        selectedObject.dragging = true;
+                        offsetX = e.clientX - obj.x;
+                        offsetY = e.clientY - obj.y;
+                        lastMouseX = e.clientX;
+                        lastMouseY = e.clientY;
+                    }
+                } else if (obj instanceof Circle) {
+                    const dx = e.clientX - obj.x;
+                    const dy = e.clientY - obj.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < obj.radius) {
+                        selectedObject = obj;
+                        selectedObject.dragging = true;
+                        offsetX = e.clientX - obj.x;
+                        offsetY = e.clientY - obj.y;
+                        lastMouseX = e.clientX;
+                        lastMouseY = e.clientY;
+                    }
+                }
+            });
+        });
+
+        canvas.addEventListener("mousemove", (e) => {
+            if (selectedObject) {
+                selectedObject.x = e.clientX - offsetX;
+                selectedObject.y = e.clientY - offsetY;
+            }
+        });
+
+        canvas.addEventListener("mouseup", (e) => {
+            if (selectedObject) {
+                selectedObject.dragging = false;
+                selectedObject.vx = (e.clientX - lastMouseX) / 3;
+                selectedObject.vy = (e.clientY - lastMouseY) / 3;
+                selectedObject.angularVelocity = (Math.random() - 0.5) * 0.2;
+                selectedObject = null;
+            }
+        });
+
+        document.getElementById("addBox").addEventListener("click", () => {
+            const size = parseInt(document.getElementById("boxSize").value) || 50;
+            const color = document.getElementById("boxColor").value;
+            objects.push(new Box(Math.random() * (canvas.width - size), 50, size, color));
+        });
+
+        document.getElementById("addCircle").addEventListener("click", () => {
+            const size = parseInt(document.getElementById("boxSize").value) || 50;
+            const color = document.getElementById("boxColor").value;
+            objects.push(new Circle(Math.random() * (canvas.width - size), 50, size / 2, color));
+        });
+
+        document.getElementById("clearAll").addEventListener("click", () => {
+            objects.length = 0;
+        });
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            objects.forEach(obj => {
+                obj.update();
+                obj.draw();
+            });
+
+            for (let i = 0; i < objects.length; i++) {
+                for (let j = i + 1; j < objects.length; j++) {
+                    objects[i].checkCollision(objects[j]);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
     </script>
 </body>
 </html>
