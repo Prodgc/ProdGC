@@ -6,7 +6,7 @@
     <title>Nyxora - Create Raw Project</title>
 </head>
 <body>
-    <button id="createBtn">Create Project LoL</button>
+    <button id="createBtn">Create Raw Project</button>
     <div id="inputContainer" style="display: none;">
         <input type="text" id="projectName" placeholder="Enter project name">
         <textarea id="projectContent" placeholder="Enter your code or text"></textarea>
@@ -30,13 +30,18 @@
                 method: 'POST',
                 headers: {'Content-Type': 'text/plain'},
                 body: projectContent
-            }).then(response => {
-                if (response.ok) {
-                    alert(`Project uploaded: nyxora.xyz/${projectName}.lua`);
-                } else {
-                    alert("Upload failed.");
-                }
-            }).catch(error => console.error('Error:', error));
+            }).then(response => response.text())
+              .then(data => {
+                  if (data.includes("success")) {
+                      let rawUrl = `https://nyxora.xyz/${projectName}.lua`;
+                      navigator.clipboard.writeText(rawUrl).then(() => {
+                          alert(`Project uploaded: ${rawUrl} (Copied to clipboard)`);
+                      });
+                  } else {
+                      alert("Upload failed.");
+                  }
+              })
+              .catch(error => console.error('Error:', error));
         });
     </script>
 </body>
