@@ -1,26 +1,9 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Butonlar</title>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        document.write(params.get("page") === "bypass" ? "Merhaba" : params.get("page") === "test" ? "Naber" : "");
+    </script>
 </head>
-<body>
-    <button onclick="window.location.href='?page=bypass'">Bypass</button>
-    <button onclick="window.location.href='?page=test'">Test</button>
-
-    <div id="content">
-        <h1>
-            <script>
-                const params = new URLSearchParams(window.location.search);
-                const page = params.get("page");
-                if (page === "bypass") {
-                    document.write("bypass");
-                } else if (page === "test") {
-                    document.write("test1");
-                }
-            </script>
-        </h1>
-    </div>
-</body>
 </html>
