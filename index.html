@@ -1,86 +1,26 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Physic - </title>
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-    }
-    canvas {
-      display: block;
-    }
-    .buttons {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      display: flex;
-      gap: 10px;
-    }
-    button {
-      padding: 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Butonlar</title>
 </head>
 <body>
-  <div class="buttons">
-    <button id="addBox">Add Box</button>
-    <button id="addBall">Add Ball</button>
-  </div>
-  <canvas id="canvas"></canvas>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
-  <script>
-    const { Engine, Render, Runner, World, Bodies, Mouse, MouseConstraint, Events } = Matter;
-    
-    const engine = Engine.create();
-    const { world } = engine;
-    const render = Render.create({
-      canvas: document.getElementById('canvas'),
-      engine: engine,
-      options: {
-        width: window.innerWidth,
-        height: window.innerHeight,
-        wireframes: false,
-        background: '#f4f4f4'
-      }
-    });
-    
-    Render.run(render);
-    Runner.run(Runner.create(), engine);
-    
-    World.add(world, [
-      Bodies.rectangle(window.innerWidth / 2, window.innerHeight, window.innerWidth, 50, { isStatic: true }),
-      Bodies.rectangle(window.innerWidth / 2, 0, window.innerWidth, 50, { isStatic: true }),
-      Bodies.rectangle(0, window.innerHeight / 2, 50, window.innerHeight, { isStatic: true }),
-      Bodies.rectangle(window.innerWidth, window.innerHeight / 2, 50, window.innerHeight, { isStatic: true })
-    ]);
-    
-    document.getElementById('addBox').addEventListener('click', () => {
-      const box = Bodies.rectangle(Math.random() * window.innerWidth, 50, 60, 60, { restitution: 0.6 });
-      World.add(world, box);
-    });
-    
-    document.getElementById('addBall').addEventListener('click', () => {
-      const ball = Bodies.circle(Math.random() * window.innerWidth, 50, 30, { restitution: 0.9 });
-      World.add(world, ball);
-    });
-    
-    const mouse = Mouse.create(render.canvas);
-    const mouseConstraint = MouseConstraint.create(engine, {
-      mouse: mouse,
-      constraint: {
-        stiffness: 0.2,
-        render: {
-          visible: false
-        }
-      }
-    });
-    World.add(world, mouseConstraint);
-    render.mouse = mouse;
-  </script>
+    <button onclick="window.location.href='?page=bypass'">Bypass</button>
+    <button onclick="window.location.href='?page=test'">Test</button>
+
+    <div id="content">
+        <h1>
+            <script>
+                const params = new URLSearchParams(window.location.search);
+                const page = params.get("page");
+                if (page === "bypass") {
+                    document.write("bypass");
+                } else if (page === "test") {
+                    document.write("test1");
+                }
+            </script>
+        </h1>
+    </div>
 </body>
-</html> 
+</html>
